@@ -5,9 +5,9 @@ A quick shell script to change gpu drivers for direct VM passthrough.
 
 # VERY Helpful Resources
 
-- (ArchWiki QEMU)[https://wiki.archlinux.org/title/QEMU]
-- (ArchWiki PCI Passthrough)[https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF]
-- (Arch Wiki NVIDIA)[https://wiki.archlinux.org/title/NVIDIA]
+- [ArchWiki QEMU](https://wiki.archlinux.org/title/QEMU)
+- [ArchWiki PCI Passthrough](https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF)
+- [Arch Wiki NVIDIA](https://wiki.archlinux.org/title/NVIDIA)
 
 # Getting Started
 
