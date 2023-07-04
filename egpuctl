@@ -1,0 +1,54 @@
+#!/bin/bash
+
+show_help () {
+  printf "\nThis helper script selects which drivers the system uses for the gpu."
+  printf "\n      -h / --help:    shows this screen"
+  printf "\n      -n / --to-host: switches to the nvidia driver (allows the host to use the gpu directly)"
+  printf "\n      -v / --to-vfio: switches to the vfio driver (allows a vm to use the gpu as a raw pci device)"
+  printf "\n\n"
+}
+
+get_gpu_pci_id () {
+  lspci -v | grep VGA | grep NVIDIA | awk '{print }' | cut -f1 -d"."
+}
+
+set_host_drivers () { 
+  sudo driverctl unset-override 0000:$(get_gpu_pci_id).0 # NVIDIA 1070ti graphics
+  sudo driverctl unset-override 0000:$(get_gpu_pci_id).1 # NVIDIA 1070ti audio
+}
+
+set_vfio_drivers () {
+  sudo driverctl set-override 0000:$(get_gpu_pci_id).0 vfio-pci # NVIDIA 1070ti graphics
+  sudo driverctl set-override 0000:$(get_gpu_pci_id).0 vfio-pci # NVIDIA 1070ti audio
+}
+
+# Read command line options
+
+SOPT='hnv'
+LOPT='to-host,to-vfio'
+OPTS=$(getopt -q -a \
+    --options ${SOPT} \
+    --longoptions ${LOPT} \
+    --name "$(basename "$0")" \
+    -- "$@"
+)
+
+if [[ $? > 0 ]]; then
+    exit 2
+fi
+
+eval set -- $OPTS
+
+while [[ $# > 0 ]]; do
+    case ${1} in
+        -h)        show_help        ;;
+        --help)    show_help        ;;
+        -n)        set_host_drivers ;;
+        --to-host) set_host_drivers ;;
+        -v)        set_vfio_drivers ;;
+        --to-vfio) set_vfio_drivers ;;
+        --)                         ;;
+        *)                          ;;
+    esac
+    shift
+done
