@@ -13,8 +13,8 @@ A quick shell script to change gpu drivers for direct VM passthrough.
 
 The options are very bare bones. 
 
-`-v / --to-vfio` sets an override pointer such that the VM can access the raw PCI device 
-`-n / --to-host` removes the override pointer (or does nothing if there isn't one set already)
+- `-v / --to-vfio` sets an override pointer such that the VM can access the raw PCI device 
+- `-n / --to-host` removes the override pointer (or does nothing if there isn't one set already)
 
 # Test Setup
 
